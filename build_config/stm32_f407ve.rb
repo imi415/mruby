@@ -1,13 +1,3 @@
-MRuby::Build.new do |conf|
-  toolchain :gcc
-
-  enable_debug
-
-  # include the default GEMs
-  conf.gembox 'default'
-
-end
-
 MRuby::CrossBuild.new("STM32F407VE") do |conf|
   toolchain :gcc
 
@@ -35,6 +25,10 @@ MRuby::CrossBuild.new("STM32F407VE") do |conf|
     cxx.flags << %w(-fno-rtti -fno-exceptions)
     cxx.defines = conf.cc.defines.dup
     cxx.compile_options = conf.cc.compile_options.dup
+  end
+
+  conf.linker do |linker|
+    linker.command = "arm-none-eabi-ld"
   end
 
   conf.archiver do |archiver|
